@@ -1,0 +1,6 @@
+openai
+tiktoken
+google-api-python-client
+beautifulsoup4
+colored
+requests
