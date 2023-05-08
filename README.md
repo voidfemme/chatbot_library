@@ -4,14 +4,14 @@ This chatbot library provides an easy-to-use interface for creating and interact
 
 ## Table of Contents
 
-- Installation
-- Usage
-    - Conversation Manager
-    - Agent
-    - Amnesic Agent
-    - Smart Agent
-- Examples
-- License
+1. [Installation](#installation)
+2. [Usage](#usage)
+    - [Conversation Manager](#conversation-manager)
+    - [Agent](#agent)
+    - [Amnesic Agent](#amnesic-agent)
+    - [Smart Agent](#smart-agent)
+3. [Examples](#examples)
+4. [License](#licence)
 
 ## Installation
 
