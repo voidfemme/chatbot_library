@@ -21,7 +21,7 @@ This library requires Python 3.6 or later. To install the required dependencies,
 pip install -r requirements.txt
 ```
 
-Ensure that you have set the necessary API keys for Google's Custom Search API in your environment variables as GOOGLE_API_KEY and GOOGLE_CSE_ID.
+Ensure that you have set the necessary API keys for Google's Custom Search API in your environment variables as GOOGLE_API_KEY and GOOGLE_CSE_ID, as well as the OPENAI_API_KEY which you can obtain from openAI
 ## Usage
 ### Conversation Manager
 
