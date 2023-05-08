@@ -22,7 +22,7 @@ pip install -r requirements.txt
 ```
 
 Ensure that you have set the necessary API keys for Google's Custom Search API in your environment variables as GOOGLE_API_KEY and GOOGLE_CSE_ID.
-Usage
+## Usage
 ### Conversation Manager
 
 The ConversationManager class is responsible for managing the chatbot's conversation history, including appending messages, resetting the chat log, and more. It also handles the interaction with the OpenAI API to generate responses.
