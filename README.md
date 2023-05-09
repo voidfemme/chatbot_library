@@ -1,6 +1,6 @@
 # Chatbot Library
 
-This chatbot library provides an easy-to-use interface for creating and interacting with chatbots. The library leverages OpenAI's GPT-4 model and includes several classes and utilities to create different types of chatbot agents. Additionally, it features a smart agent capable of web searches and webpage summarization.
+This chatbot library provides an easy-to-use interface for creating and interacting with chatbots. The library leverages OpenAI's GPT-3.5 model and includes several classes and utilities to create different types of chatbot agents. Additionally, it features a smart agent capable of web searches and webpage summarization.
 
 ## Table of Contents
 
