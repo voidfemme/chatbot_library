@@ -6,10 +6,10 @@ This chatbot library provides an easy-to-use interface for creating and interact
 
 1. [Installation](#installation)
 2. [Usage](#usage)
-    - [Conversation Manager](#conversation-manager)
-    - [Agent](#agent)
-    - [Amnesic Agent](#amnesic-agent)
-    - [Smart Agent](#smart-agent)
+   - [Conversation Manager](#conversation-manager)
+   - [Agent](#agent)
+   - [Amnesic Agent](#amnesic-agent)
+   - [Smart Agent](#smart-agent)
 3. [Examples](#examples)
 4. [License](#licence)
 
@@ -21,20 +21,40 @@ This library requires Python 3.6 or later. To install the required dependencies,
 pip install -r requirements.txt
 ```
 
+To use this library in your project as a local package, navigate to your project's root directory and run the following command:
+
+```bash
+pip intall -e /path/to/chatbot_library
+```
+
+Replace `/path/to/chatbot_library` with the actual path to the chatbot_library directory.
+
+When importing the library, make sure to use the correct import statements. For example:
+
+```python
+from chatbot_library.agents.smart_agent import SmartAgent
+```
+
 Ensure that you have set the necessary API keys for Google's Custom Search API in your environment variables as GOOGLE_API_KEY and GOOGLE_CSE_ID, as well as the OPENAI_API_KEY which you can obtain from openAI
+
 ## Usage
+
 ### Conversation Manager
 
 The ConversationManager class is responsible for managing the chatbot's conversation history, including appending messages, resetting the chat log, and more. It also handles the interaction with the OpenAI API to generate responses.
+
 ### Agent
 
 The Agent class is an abstract base class for chatbot agents. It provides a foundation for creating different types of chatbot agents. The main method to override in derived classes is the get_response() method.
+
 ### Amnesic Agent
 
 The AmnesicAgent is a chatbot agent that does not remember previous interactions. This agent is derived from the Agent class and is useful for situations where context from previous interactions is not needed.
+
 ### Smart Agent
 
 The SmartAgent is a more advanced chatbot agent that can remember previous interactions and perform web searches using Google's Custom Search API. It also has the ability to fetch and summarize webpage content using BeautifulSoup. This agent is derived from the Agent class and is useful for more advanced applications.
+
 ## Examples
 
 The following examples demonstrate how to use the various classes and agents in this library:
