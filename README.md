@@ -99,4 +99,4 @@ print(summary)
 
 ## License
 
-This chatbot library is released under the MIT License. See the LICENSE file for details.
+This chatbot library is released under the GPL-3.0 License. See the LICENSE file for details.
