@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="chatbot-library",
-    version="0.1.0",
+    version="0.1.1",
     description="A Python library for creating chatbots using GPT-based models",
     author="voidfemme",
     url="https://github.com/yourusername/chatbot-library",
