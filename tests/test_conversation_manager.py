@@ -74,14 +74,27 @@ class TestConversationManagerExtended(TestConversationManager):
         self.assertGreater(tokens, 0)
 
     def test_trim_chat_log_to_token_limit(self):
-        self.conversation_manager.max_tokens = 10
-        for _ in range(20):
-            self.conversation_manager.append_user_message("Hello!")
-        self.conversation_manager.trim_chat_log_to_token_limit()
-        tokens = self.conversation_manager.num_tokens_from_messages(
+        # Add a large number of user messages to chat_log
+        for _ in range(1000):
+            self.conversation_manager.append_user_message("This is a test message!")
+
+        self.conversation_manager.max_tokens = 100
+
+        try:
+            self.conversation_manager.trim_chat_log_to_token_limit()
+        except IndexError:
+            self.fail(
+                "trim_chat_log_to_token_limit() attempted to access out of bounds array."
+            )
+
+        # Check if the number of tokens is under the max limit
+        num_tokens = self.conversation_manager.num_tokens_from_messages(
             self.conversation_manager.chat_log
         )
-        self.assertLessEqual(tokens, self.conversation_manager.max_tokens)
+        self.assertTrue(
+            num_tokens <= self.conversation_manager.max_tokens,
+            f"Number of tokens {num_tokens} exceeded the maximum limit {self.conversation_manager.max_tokens}.",
+        )
 
     @patch("chatbot_library.utils.conversation_manager.tiktoken.encoding_for_model")
     def test_num_tokens_from_messages_model_not_found(self, mock_encoding_for_model):

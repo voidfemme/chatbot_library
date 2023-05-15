@@ -6,23 +6,40 @@ import json
 import tiktoken
 import openai
 import sys
+import logging
 
 CHAT_LOG_FILE = "chat_log.json"
 
 
 class ConversationManager:
-    def __init__(self, model: str = "gpt-3.5-turbo") -> None:
-        self.chat_log: list = []
+    def __init__(self, model: str = "gpt-3.5-turbo", temperature: float = 1.0) -> None:
+        # Create a logger instance
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(logging.INFO)
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s = %(levelname)s - %(message)s"
+        )
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
+
+        # Main attributes
         self.max_tokens: int = 2000
-        self.temperature: float = 1.0
+        self.chat_log: list = []
+        self.temperature = temperature
         self.model = model
+        self.system_message = None
+
+    def get_message_at(self, position: int) -> Message:
+        return self.chat_log[position]
 
     def reset_chat_log(self) -> None:
         self.chat_log = []
 
     def initialize_conversation(self, system_message: str) -> None:
-        self.chat_log = []
-        self.append_system_message(system_message)
+        self.system_message = Message("system", system_message)
+        self.chat_log = [self.system_message]
 
     def messages_objs_to_dicts(self, messages: List[Message]) -> List[Dict[str, str]]:
         return [msg.to_dict() for msg in messages]
@@ -129,25 +146,41 @@ class ConversationManager:
         print(self.chat_log[message_id])
 
     def append_system_message(self, message: str) -> None:
-        self.chat_log.append(Message("system", message))
-        self.trim_chat_log_to_token_limit()
+        self.system_message = Message("system", message)
+        self.chat_log.append(self.system_message)
+        self.logger.info(
+            f"System message appended with {self.num_tokens_from_messages([Message('system', message)])} "
+            + f"tokens. Total tokens: {self.num_tokens_from_messages(self.chat_log)}"
+        )
 
     def append_user_message(self, message: str) -> None:
         self.chat_log.append(Message("user", message))
         self.trim_chat_log_to_token_limit()
+        self.logger.info(
+            f"User message appended with {self.num_tokens_from_messages([Message('system', message)])} "
+            + f"tokens. Total tokens: {self.num_tokens_from_messages(self.chat_log)}"
+        )
 
     def append_bot_message(self, message: str) -> None:
         self.chat_log.append(Message("assistant", message))
         self.trim_chat_log_to_token_limit()
+        self.logger.info(
+            f"Bot message appended with {self.num_tokens_from_messages([Message('system', message)])} "
+            + f"tokens. Total tokens: {self.num_tokens_from_messages(self.chat_log)}"
+        )
 
     def trim_chat_log_to_token_limit(self) -> None:
         total_tokens = self.num_tokens_from_messages(self.chat_log)
         tokens_to_remove = total_tokens - self.max_tokens
 
-        while tokens_to_remove > 0:
+        while tokens_to_remove > 0 and len(self.chat_log) > 1:
+            # Remove the second message to leave the system message at the beginning of the conversation.
             removed_message = self.chat_log.pop(1)
             tokens_removed = self.num_tokens_from_messages([removed_message])
             tokens_to_remove -= tokens_removed
+            self.logger.info(
+                f"Message removed with {tokens_removed} tokens. Remaining tokens: {self.num_tokens_from_messages(self.chat_log)}"
+            )
 
     def save_chat_log(self, file_path: str = CHAT_LOG_FILE) -> None:
         with open(file_path, "w") as f:
